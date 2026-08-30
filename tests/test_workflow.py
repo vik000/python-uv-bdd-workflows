@@ -16,6 +16,13 @@ SPEC.loader.exec_module(workflow)
 
 
 class WorkflowTests(unittest.TestCase):
+    def test_issue_template_requires_boundaries_and_edge_cases_separately(self) -> None:
+        template = (
+            ROOT / "skills/python-uv-gh-workflow/assets/feature-issue.md"
+        ).read_text()
+        self.assertIn("Boundary values and limit transitions", template)
+        self.assertIn("Edge and corner cases", template)
+
     def test_materialize_issue_body_injects_traceability(self) -> None:
         body = "#{{ISSUE_NUMBER}} {{PYTEST_MARKER}} {{FOCUSED_TEST_COMMAND}}"
         rendered = workflow.materialize_issue_body(body, 42)

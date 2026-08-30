@@ -62,7 +62,8 @@ uv run python <skill-dir>/scripts/workflow.py marker ensure <number>
 ## Write tests first
 
 1. Convert each acceptance scenario into a pytest test marked `@pytest.mark.issue_<number>`.
-2. Add the most comprehensive applicable lower-level tests from the test-strategy matrix.
+2. Add the most comprehensive applicable lower-level tests from the test-strategy matrix. Assess
+   boundary-value transitions and rare-but-valid edge cases separately.
 3. Prefer observable behaviour over implementation details.
 4. Run the focused marker and prove that new tests fail for the intended missing behaviour:
 
@@ -121,4 +122,3 @@ uv run python <skill-dir>/scripts/workflow.py version bump patch
 
 Never treat a version increment, passing test suite, branch coverage percentage or mutation score as
 a substitute for clinical safety validation, risk management or required human review.
-

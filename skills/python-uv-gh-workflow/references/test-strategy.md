@@ -15,10 +15,20 @@ issue-owned acceptance test with `@pytest.mark.issue_<number>`.
 Cover decision logic, calculations and transformations with small deterministic tests. Avoid testing
 private implementation details when a stable public behaviour is available.
 
-### Boundary and equivalence partitions
+### Boundary-value and limit-transition tests
 
-Test minimums, maximums, empty values, transition points, inclusive/exclusive limits, Unicode, time
-boundaries and representative classes rather than only typical examples.
+Identify every constrained dimension and test immediately below, exactly at and immediately above its
+meaningful limits. Include zero/one/empty, minimum/maximum, inclusive/exclusive cutoffs, collection and
+payload sizes, pagination ends, numeric precision and overflow, date/time cutoffs, time zones and DST
+transitions when applicable. Use equivalence partitions to select representative interior values.
+
+### Edge and corner-case tests
+
+Test rare but valid combinations that are not necessarily limits: duplicate or reordered events,
+simultaneous actions, repeated calls, partial optional data, unusual Unicode, stale state, empty-but-
+valid collections, single-element collections, cross-field interactions, ambiguous values and legal
+state sequences that are unlikely in the happy path. Distinguish these from malformed or prohibited
+inputs so valid unusual behaviour is not accidentally rejected.
 
 ### Negative and malformed input
 

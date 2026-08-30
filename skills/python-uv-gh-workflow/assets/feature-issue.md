@@ -44,7 +44,8 @@ Mark each category **Required** or **N/A — reason**.
 |---|---|---|
 | BDD acceptance | Required | |
 | Unit | | |
-| Boundary/equivalence partitions | | |
+| Boundary values and limit transitions | | |
+| Edge and corner cases | | |
 | Negative/malformed input | | |
 | Property-based | | |
 | State transition/invariant | | |
@@ -78,7 +79,7 @@ Mark each category **Required** or **N/A — reason**.
 - [ ] Applicable coverage and quality gates pass
 - [ ] Acceptance criteria mapped to tests
 - [ ] Safety invariants mapped to tests
+- [ ] Boundary and edge-case decisions are covered or justified as N/A
 - [ ] Diff reviewed for issue scope
 - [ ] Version incremented with `uv version`
 - [ ] Exact commands and results recorded
-

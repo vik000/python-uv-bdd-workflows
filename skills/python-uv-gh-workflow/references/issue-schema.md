@@ -9,6 +9,8 @@ Use one issue for one independently verifiable version increment.
 - Define both in-scope and out-of-scope behaviour.
 - Make assumptions visible and falsifiable.
 - Express acceptance criteria as concrete Given/When/Then scenarios.
+- Identify boundary values and rare-but-valid edge cases explicitly; do not hide them under a generic
+  “error handling” criterion.
 - Include at least one failure, uncertainty or invalid-input scenario when the feature accepts input.
 - Add safety invariants separately from ordinary acceptance criteria.
 - Require every test category to be assessed; permit `N/A` only with a reason.
@@ -28,6 +30,10 @@ unmerged sibling issue.
 Use deterministic statements. Avoid “works correctly,” “handles errors,” “is secure,” or “supports
 all cases.” Identify specific inputs, state, outputs, side effects and prohibited outcomes.
 
+For every input or state dimension, consider values immediately below, at and immediately above each
+meaningful limit. Separately identify valid but unusual combinations, ordering, duplication, timing,
+precision and partial-state cases.
+
 ## Safety invariants
 
 Describe properties that must remain true across valid, invalid and degraded conditions. Examples:
@@ -38,4 +44,3 @@ Describe properties that must remain true across valid, invalid and degraded con
 - Repeated delivery of the same event never duplicates a clinical action.
 
 The issue must not claim these are guaranteed merely because their tests pass.
-
