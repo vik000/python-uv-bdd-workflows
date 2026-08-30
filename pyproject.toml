@@ -1,0 +1,10 @@
+[project]
+name = "python-uv-bdd-workflows"
+version = "0.1.0"
+description = "Agent-agnostic skills for traceable Python delivery from GitHub issues"
+requires-python = ">=3.11"
+dependencies = []
+
+[tool.uv]
+package = false
+

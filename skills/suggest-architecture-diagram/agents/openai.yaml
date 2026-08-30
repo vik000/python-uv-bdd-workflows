@@ -1,0 +1,4 @@
+interface:
+  display_name: "Architecture Diagram Opener"
+  short_description: "Turn requirements into a focused Mermaid diagram"
+  default_prompt: "Use $suggest-architecture-diagram to propose a concise architecture diagram from this specification or GitHub issue set."

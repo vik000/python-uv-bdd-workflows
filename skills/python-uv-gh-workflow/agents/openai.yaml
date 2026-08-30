@@ -1,0 +1,4 @@
+interface:
+  display_name: "Python uv GitHub Workflow"
+  short_description: "Plan and deliver traced Python GitHub issues"
+  default_prompt: "Use $python-uv-gh-workflow to turn requirements into traced GitHub issues and deliver one with uv and pytest."
