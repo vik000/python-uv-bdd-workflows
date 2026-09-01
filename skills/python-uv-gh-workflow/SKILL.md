@@ -1,6 +1,6 @@
 ---
 name: python-uv-gh-workflow
-description: Plan and deliver traceable Python work from GitHub Issues using uv, pytest, BDD acceptance criteria, TDD, per-issue pytest markers, managed CLAUDE.md checkpoints, verification evidence, and semantic version increments. Use when creating issues from requirements, starting or resuming an issue, writing tests for an issue, implementing a Python issue, checking coverage and safety evidence, or completing and versioning issue-scoped work.
+description: Plan and deliver traceable Python work from GitHub Issues using uv, pytest, BDD acceptance criteria, TDD, per-issue pytest markers, managed CLAUDE.md checkpoints, verification evidence, and semantic version increments. Use when partitioning a large scope into proof-of-concept, incremental and production stages, when creating issues from requirements, starting or resuming an issue, writing tests for an issue, implementing a Python issue, checking coverage and safety evidence, or completing and versioning issue-scoped work.
 ---
 
 # Python uv GitHub workflow
@@ -39,6 +39,31 @@ uv run python <skill-dir>/scripts/workflow.py issue create \
 ```
 
 The script creates the issue, injects `issue_<number>` and prints the focused pytest command.
+
+## Stage the plan
+
+Applies when the requirements cover more scope than the available time. Map the whole
+scope, then partition before creating any issue.
+
+1. Enumerate the full scope as epics. Do not truncate it — an unmapped requirement is a
+   requirement nobody decided to defer.
+2. Partition every epic into exactly one stage:
+   - **Stage 1 — proof of concept.** Built now. Three to five vertical slices, ordered by
+     risk to the user, not by implementation convenience.
+   - **Stage 2 — incremental delivery.** Named and sequenced. One line each.
+   - **Stage 3 — production readiness.** Named only. Whatever the domain requires before
+     real users are exposed: audit records, input redaction, prompt versioning, change
+     control, validation against intended use.
+3. Create issues for Stage 1 only. Record Stages 2 and 3 in the repository as a plan
+   document, not as issues — an issue nobody will action is noise in the tracker.
+4. State the partition and its rationale to the user before creating anything. Ask
+   whether the Stage 1 selection is the one they want.
+
+Never write acceptance criteria, safety invariants or test strategy for Stage 2 or
+Stage 3 work. The map is the deliverable at those stages; the specification is not.
+
+A plan that is not built is not evidence. Deliver Stage 1 to passing tests within the
+available time, and treat the remaining map as scope communication rather than progress.
 
 ## Start or resume an issue
 
