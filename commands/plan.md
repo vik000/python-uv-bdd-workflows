@@ -1,20 +1,26 @@
 ---
-description: Review one issue's test plan and safety invariants before any code
+description: Show one issue's criteria, invariants and test plan. Changes nothing.
 ---
 
-Use the python-uv-gh-workflow skill.
+Read issue $ARGUMENTS with the bundled workflow script. Do not work from memory.
 
-Read issue $ARGUMENTS with the bundled workflow script. Do not work from memory or
-from anything summarised earlier in this session.
+Print, in this order, nothing else:
 
-Show me, and nothing else:
+ISSUE      <n> - <title>
+OBJECTIVE  <one line>
 
-1. Objective and scope, in one line each.
-2. Every acceptance criterion, as Given/When/Then.
-3. Every safety invariant.
-4. The test strategy: which categories are exercised, and for each marked N/A, the
-   stated reason.
-5. Any acceptance criterion or invariant with no corresponding test category — call
-   these out explicitly as gaps.
+CRITERIA
+AC1 <Given/When/Then, one line each>
 
-Then stop. Do not branch, register markers or write tests. Wait for my approval.
+INVARIANTS
+SI1 <one line>
+
+TEST PLAN
+<category>  exercised, or N/A: reason
+
+GAPS
+<criterion or invariant with no covering test category, or "none">
+
+ESTIMATE   <number> criteria, roughly <number> /green runs
+
+Then stop. Do not branch, register markers or write tests.

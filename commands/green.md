@@ -1,30 +1,37 @@
 ---
-description: Implement the minimum for one acceptance criterion
+description: Implement one acceptance criterion. Commits. Reports state.
 ---
 
-Use the python-uv-gh-workflow skill.
+Read the managed CLAUDE.md checkpoint for the active issue, branch and marker. Do not
+infer them from conversation. If it is missing or disagrees with the current branch,
+print CHECKPOINT MISMATCH with both values and stop.
 
-**Read the managed CLAUDE.md checkpoint first** to identify the active issue, branch and
-marker. Do not infer them from conversation history. If the checkpoint is missing or
-disagrees with the current branch, stop and tell me — do not guess which issue this is.
+Re-read the issue with the bundled workflow script.
 
-Re-read that issue with the bundled workflow script before writing anything.
+Before writing anything, print one line:
+IMPLEMENTING AC<n> - <short name>  (<done>/<total> criteria complete)
 
-Implement exactly one failing acceptance scenario — the one named in the checkpoint's
-next action, unless I name a different one in $ARGUMENTS.
+Then record the current full-suite pass count.
 
-Constraints:
-
-- Minimum behaviour to pass that scenario. No speculative abstractions.
-- No new dependencies without asking me first.
-- Do not modify tests to make them pass.
-- Do not touch files outside the issue's scope.
+Implement exactly that one criterion - the next unimplemented one, or the one named in
+$ARGUMENTS. Minimum behaviour. No speculative abstractions. No new dependencies without
+asking. Do not modify tests to make them pass. Do not touch files outside issue scope.
 
 Then:
 
-1. Run the focused marker and show me the output.
-2. Show me the diff.
-3. Update the checkpoint: phase `GREEN`, last verified command and result, and the next
-   action.
+1. Run the full suite.
+2. If any test that was passing before is now failing, print REGRESSION with the test
+   names, revert your changes, and stop. Do not proceed.
+3. If clean, commit the scoped files with message: Issue #<n> AC<m>: <short name>
+4. Update the checkpoint: phase, last verified command and result, next action.
 
-Stop. Do not refactor, commit or start the next criterion.
+Finish with these lines and nothing else:
+
+ISSUE      <n> - <title>
+CRITERIA   <done>/<total> done
+REMAINING  <criterion id and short name, one per line, or "none">
+SUITE      <passed> passed, <failed> failed
+COMMITTED  <sha> <message>
+NEXT       <the single next action, or "run /close">
+
+No explanation of what you did beyond those lines.

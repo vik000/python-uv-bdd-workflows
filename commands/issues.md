@@ -1,14 +1,8 @@
 ---
-description: List open issues with their markers. Read-only.
+description: List open issues. Read-only.
 ---
 
-Use the python-uv-gh-workflow skill.
+List open issues via the bundled workflow script. Print one line each in the form:
+#<number>  <title>  <marker>
 
-List the open issues via the bundled workflow script. For each, show only:
-
-- number
-- title
-- pytest marker
-
-Do not read issue bodies. Do not create a branch. Do not write code.
-Stop after the list and wait for me to choose.
+Nothing else. No bodies, no branches, no code.

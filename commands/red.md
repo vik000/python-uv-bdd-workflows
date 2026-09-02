@@ -1,24 +1,29 @@
 ---
-description: Branch, register the marker, set the checkpoint, write failing tests only
+description: Branch, marker, checkpoint, failing tests. Reports state.
 ---
-
-Use the python-uv-gh-workflow skill.
 
 For issue $ARGUMENTS:
 
-1. Read the issue with the bundled workflow script. Do not rely on remembered or
-   summarised requirements.
-2. Confirm the worktree is clean, then create branch `issue-$ARGUMENTS-<short-slug>`.
-3. Register the pytest marker via the bundled workflow script.
-4. **Set the managed CLAUDE.md checkpoint** with the issue number, title, branch, phase
-   `RED`, and next action. This is what makes the work resumable — never skip it.
-5. Convert every acceptance scenario into a test marked `@pytest.mark.issue_$ARGUMENTS`.
-   Add the most comprehensive applicable lower-level tests from the test-strategy matrix.
-   Prefer observable behaviour over implementation details.
-6. Run the focused marker and show me the output.
-7. For each failing test, state which missing behaviour causes the failure. If any test
-   passes before implementation, say whether the behaviour already exists or the test is
-   ineffective — do not call this a valid RED phase without evidence.
-8. Update the checkpoint's next action to name the acceptance criterion to implement first.
+1. Read the issue with the bundled workflow script.
+2. Print the acceptance criteria as a numbered list before writing anything. This is the
+   list every later command reports progress against.
+3. Confirm the worktree is clean, create branch issue-$ARGUMENTS-<short-slug>.
+4. Register the pytest marker via the bundled workflow script.
+5. Set the managed CLAUDE.md checkpoint: issue, title, branch, phase RED, criteria total,
+   next action.
+6. Write tests marked with the issue marker covering every acceptance criterion and safety
+   invariant. Keep them in as few files as the test-strategy categories allow. Every test
+   name must make clear which criterion it covers.
+7. If a test imports a module that does not exist yet, create a minimal stub so the suite
+   collects. Import errors abort collection and hide the real state - never leave them.
+8. Run the full suite.
+9. Commit with message: Issue #$ARGUMENTS: failing tests
 
-Write no implementation code. Stop after the failing run.
+Write no implementation logic. Finish with these lines and nothing else:
+
+ISSUE      <n> - <title>
+CRITERIA   0/<total> done
+REMAINING  <criterion id and short name, one per line>
+SUITE      <passed> passed, <failed> failed
+COMMITTED  <sha> <message>
+NEXT       run /green

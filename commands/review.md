@@ -1,30 +1,24 @@
 ---
-description: Inspect the last change against the issue's safety invariants
+description: Safety inspection of the last commit. Applies nothing.
 ---
 
-Use the python-uv-gh-workflow skill.
+Read the managed CLAUDE.md checkpoint, then re-read the issue with the bundled workflow
+script so invariants come from the source of truth.
 
-**Read the managed CLAUDE.md checkpoint** to identify the active issue, then re-read that
-issue with the bundled workflow script so the invariants come from the source of truth
-rather than from memory.
+Inspect the diff of the last commit. For each heading print one line: the heading, then
+either ok or the finding with file and line.
 
-Review the code written since the last commit. Report against every heading below
-explicitly — say "none found" where that is true rather than omitting the heading:
+1. FAILURE DIRECTION - on parse failure, timeout, empty input or refusal, does the
+   default land safe or convenient?
+2. UNCERTAINTY PATH - can it express "I don't know", or is it forced to guess?
+3. SWALLOWED EXCEPTIONS - caught and continued without a decision.
+4. UNVALIDATED OUTPUT - model output used before validation.
+5. BOUNDARY - off-by-one, empty collection, missing key, None.
+6. SCOPE - anything in the diff the issue did not ask for.
+7. ASSERTIONS - do tests assert on schema and invariants, or on generated prose?
 
-1. **Failure direction.** On parse failure, timeout, empty input or model refusal, does
-   the default land on the safe side or the convenient side?
-2. **Uncertainty path.** Can the system express that it does not know, or is it
-   structurally forced to guess?
-3. **Swallowed exceptions.** Anything caught and continued without a decision.
-4. **Unvalidated model output.** Anything used before it is validated.
-5. **Boundary errors.** Off-by-one, empty collection, missing key, None.
-6. **Scope divergence.** Anything in the diff the issue did not ask for.
-7. **Test assertions.** Do they assert on schema and invariants, or on generated prose?
+Then one line per safety invariant: SI<n> holds, or SI<n> at risk: reason
 
-Then map each of the issue's safety invariants to the finding that threatens it, or state
-that it holds.
+Propose fixes as a numbered list, one line each. Apply nothing.
 
-For each finding, quote the line and name the invariant at risk. Propose fixes. Update the
-checkpoint phase to `REVIEW` with the outcome as the last result.
-
-Do not apply any fix until I say so.
+Finish with the status block. No prose.
