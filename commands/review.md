@@ -4,9 +4,12 @@ description: Inspect the last change against the issue's safety invariants
 
 Use the python-uv-gh-workflow skill.
 
-Review the code written since the last commit against the current issue's safety
-invariants. Report against each of these explicitly — say "none found" where that is
-true rather than omitting the heading:
+**Read the managed CLAUDE.md checkpoint** to identify the active issue, then re-read that
+issue with the bundled workflow script so the invariants come from the source of truth
+rather than from memory.
+
+Review the code written since the last commit. Report against every heading below
+explicitly — say "none found" where that is true rather than omitting the heading:
 
 1. **Failure direction.** On parse failure, timeout, empty input or model refusal, does
    the default land on the safe side or the convenient side?
@@ -18,5 +21,10 @@ true rather than omitting the heading:
 6. **Scope divergence.** Anything in the diff the issue did not ask for.
 7. **Test assertions.** Do they assert on schema and invariants, or on generated prose?
 
-For each finding, quote the line and state which invariant it threatens. Propose fixes.
-Do not apply them until I say so.
+Then map each of the issue's safety invariants to the finding that threatens it, or state
+that it holds.
+
+For each finding, quote the line and name the invariant at risk. Propose fixes. Update the
+checkpoint phase to `REVIEW` with the outcome as the last result.
+
+Do not apply any fix until I say so.
