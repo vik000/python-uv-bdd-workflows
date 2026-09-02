@@ -45,19 +45,80 @@ The script creates the issue, injects `issue_<number>` and prints the focused py
 Applies when the requirements cover more scope than the available time. Map the whole
 scope, then partition before creating any issue.
 
+### Establish the target
+
+Ask which is being built before selecting anything. They have different bars.
+
+- **Proof of concept.** Proves the central capability is achievable. Success is a working
+  demonstration, not a usable product.
+- **Minimum viable product.** The smallest thing a real user would use for real work.
+  Requires the capability plus enough surrounding behaviour to be trusted.
+
+Default to proof of concept when the timebox is a single session.
+
+### Partition
+
 1. Enumerate the full scope as epics. Do not truncate it — an unmapped requirement is a
    requirement nobody decided to defer.
 2. Partition every epic into exactly one stage:
-   - **Stage 1 — proof of concept.** Built now. Three to five vertical slices, ordered by
-     risk to the user, not by implementation convenience.
+   - **Stage 1.** Built now. Three to five vertical slices.
    - **Stage 2 — incremental delivery.** Named and sequenced. One line each.
    - **Stage 3 — production readiness.** Named only. Whatever the domain requires before
      real users are exposed: audit records, input redaction, prompt versioning, change
      control, validation against intended use.
 3. Create issues for Stage 1 only. Record Stages 2 and 3 in the repository as a plan
    document, not as issues — an issue nobody will action is noise in the tracker.
-4. State the partition and its rationale to the user before creating anything. Ask
-   whether the Stage 1 selection is the one they want.
+4. State the partition and its rationale before creating anything. Ask whether the
+   Stage 1 selection is the one the user wants.
+
+### Select Stage 1
+
+Every criterion must hold. A selection that fails any one of them is not Stage 1.
+
+1. **One capability, closest to the brief's stated ask.** Select the thing the user
+   described wanting, not the most important thing in the system. A demonstration that
+   does not perform the requested capability proves nothing, however well engineered.
+2. **Expandable, not replaceable.** Stage 2 must extend Stage 1. If Stage 2 work would
+   rewrite Stage 1 rather than build on it, the boundary is in the wrong place.
+3. **Durable data structures.** Some rework is expected. Rework severe enough that the
+   result reads as a different product means the stage de-risked nothing.
+4. **Composes end to end.** The slices must form a running path — input in, result out.
+   Three individually valuable components that do not connect are not a proof of concept.
+5. **Proves something not already known.** If every slice is a thing already known to
+   work, the output is a demonstration, not a proof.
+6. **Load-bearing.** Removing any single slice must break the demonstration. If the
+   remaining slices still show something coherent, the removed one was not Stage 1.
+7. **Foundational.** If Stage 1 were deleted from the plan, the later stages would have
+   to be built from scratch. If they would not, Stage 1 was not the foundation.
+
+Do not order Stage 1 selection by risk of harm. Risk ordering is a production heuristic
+and it selects the controls that guard a capability before the capability itself has been
+shown to work.
+
+### Safety behaviour at Stage 1
+
+Safety-critical behaviour belongs in Stage 1 as a **property of the capability**, never as
+a separate architectural slice.
+
+Correct: *classify the message, and never downgrade urgency when the result is uncertain.*
+One slice, one capability, with the invariant attached.
+
+Incorrect: *classify the message* as one slice, and *an independent screen that ratchets
+urgency upward* as another. The second is infrastructure guarding a capability that has
+not yet been demonstrated. It belongs to the stage where the capability is hardened, not
+the stage where it is proven.
+
+Express the safety requirement as a safety invariant on the capability's own issue. The
+invariant is Stage 1; the independent mechanism that enforces it defensively is not.
+
+### Build order
+
+Risk order justifies the selection. Dependency order determines the build. State both
+when they differ.
+
+Build whatever produces a running path soonest, then layer. Never build the most
+sophisticated component first — a session that runs out of time must still have something
+that executes.
 
 Never write acceptance criteria, safety invariants or test strategy for Stage 2 or
 Stage 3 work. The map is the deliverable at those stages; the specification is not.
