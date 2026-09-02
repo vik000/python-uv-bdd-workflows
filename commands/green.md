@@ -1,37 +1,33 @@
 ---
-description: Implement one acceptance criterion. Commits. Reports state.
+description: Implement one scenario. Explains what and why. Commits.
 ---
 
-Read the managed CLAUDE.md checkpoint for the active issue, branch and marker. Do not
-infer them from conversation. If it is missing or disagrees with the current branch,
-print CHECKPOINT MISMATCH with both values and stop.
+Read DESIGN-slice<n>.md and tests/test_slice<n>.py for the current branch.
 
-Re-read the issue with the bundled workflow script.
+Pick the next failing scenario, or the one named in $ARGUMENTS.
 
-Before writing anything, print one line:
-IMPLEMENTING AC<n> - <short name>  (<done>/<total> criteria complete)
+Before writing anything, print exactly this and nothing more:
 
-Then record the current full-suite pass count.
+SCENARIO   s<n> - <scenario name>
+TESTING    <what behaviour this proves, one line>
+EXPECT     <what the test asserts, one line>
+APPROACH   <how you will implement it, one line>
 
-Implement exactly that one criterion - the next unimplemented one, or the one named in
-$ARGUMENTS. Minimum behaviour. No speculative abstractions. No new dependencies without
-asking. Do not modify tests to make them pass. Do not touch files outside issue scope.
+Then wait for me to say go.
 
-Then:
+After I say go:
+1. Record the current pass count.
+2. Implement the minimum for that scenario only. No speculative abstractions. No new
+   dependencies without asking. Never modify a test to make it pass.
+3. Run the full suite.
+4. If anything that was passing is now failing, print REGRESSION with the test names,
+   revert, and stop.
+5. Commit: slice <n> s<m>: <scenario name>
 
-1. Run the full suite.
-2. If any test that was passing before is now failing, print REGRESSION with the test
-   names, revert your changes, and stop. Do not proceed.
-3. If clean, commit the scoped files with message: Issue #<n> AC<m>: <short name>
-4. Update the checkpoint: phase, last verified command and result, next action.
+Then print only:
 
-Finish with these lines and nothing else:
-
-ISSUE      <n> - <title>
-CRITERIA   <done>/<total> done
-REMAINING  <criterion id and short name, one per line, or "none">
+DONE       s<m> <scenario name>
+SCENARIOS  <done>/<total>
+REMAINING  <scenario number and name, one per line, or none>
 SUITE      <passed> passed, <failed> failed
-COMMITTED  <sha> <message>
-NEXT       <the single next action, or "run /close">
-
-No explanation of what you did beyond those lines.
+NEXT       run /green, or run /review

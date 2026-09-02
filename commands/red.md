@@ -1,29 +1,33 @@
 ---
-description: Branch, marker, checkpoint, failing tests. Reports state.
+description: Design the test scenarios together, then write them.
 ---
 
-For issue $ARGUMENTS:
+Read DESIGN-slice$ARGUMENTS.md. If it does not exist, tell me to run /design first and stop.
 
-1. Read the issue with the bundled workflow script.
-2. Print the acceptance criteria as a numbered list before writing anything. This is the
-   list every later command reports progress against.
-3. Confirm the worktree is clean, create branch issue-$ARGUMENTS-<short-slug>.
-4. Register the pytest marker via the bundled workflow script.
-5. Set the managed CLAUDE.md checkpoint: issue, title, branch, phase RED, criteria total,
-   next action.
-6. Write tests marked with the issue marker covering every acceptance criterion and safety
-   invariant. Keep them in as few files as the test-strategy categories allow. Every test
-   name must make clear which criterion it covers.
-7. If a test imports a module that does not exist yet, create a minimal stub so the suite
-   collects. Import errors abort collection and hide the real state - never leave them.
-8. Run the full suite.
-9. Commit with message: Issue #$ARGUMENTS: failing tests
+STEP 1 - propose scenarios. Print ONLY a table:
 
-Write no implementation logic. Finish with these lines and nothing else:
+| # | Scenario | Given | Expect |
+|---|----------|-------|--------|
 
-ISSUE      <n> - <title>
-CRITERIA   0/<total> done
-REMAINING  <criterion id and short name, one per line>
+Rules:
+- One row per behaviour worth proving. Aim for four to eight rows total.
+- Cover: the normal case, one malformed input, one uncertainty case, and every rule from
+  "what must never happen".
+- Each cell: one short line. No prose anywhere.
+
+Then one line: Add, remove or change any row. Say "go" when it is right.
+
+STEP 2 - only after I say go:
+1. Create branch slice-$ARGUMENTS if not on it.
+2. Write one test per approved row, in tests/test_slice$ARGUMENTS.py.
+3. Name each test test_s<scenario number>_<short name> so the name maps to the table.
+4. Mark every test @pytest.mark.slice$ARGUMENTS.
+5. Register the marker in pyproject.toml if not present.
+6. Stub any missing module so the suite collects. Never leave import errors.
+7. Run the suite. Commit: slice $ARGUMENTS: failing tests
+
+Print only:
+
+SCENARIOS  <n> written
 SUITE      <passed> passed, <failed> failed
-COMMITTED  <sha> <message>
 NEXT       run /green

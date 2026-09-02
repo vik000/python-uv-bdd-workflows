@@ -1,19 +1,17 @@
 ---
-description: Where am I? Prints state. Changes nothing.
+description: Where am I? Changes nothing.
 ---
 
-Read the managed CLAUDE.md checkpoint for the active issue, then read that issue with
-the bundled workflow script. Run the full suite quietly.
+Find the current branch, its DESIGN file and its test file. Run the suite quietly.
 
-Print exactly these lines and nothing else:
+Print only:
 
-ISSUE       <n> - <title>
-CRITERIA    <done>/<total> done
-REMAINING   <criterion id and short name, one per line>
-SUITE       <passed> passed, <failed> failed
-LAST GREEN  <commit sha and message, or "none committed">
-UNCOMMITTED <files changed since last commit, or "clean">
-NEXT        <the single next action>
+SLICE      <n> - <name>
+SCENARIOS  <done>/<total>
+REMAINING  <scenario number and name, one per line>
+SUITE      <passed> passed, <failed> failed
+LAST       <commit sha and message>
+UNCOMMITTED <files, or clean>
+NEXT       <single next action>
 
-No prose before or after. No explanation. If the checkpoint is missing, print
-NO ACTIVE ISSUE and stop.
+If there is no branch or design file, print NO ACTIVE SLICE and stop.
