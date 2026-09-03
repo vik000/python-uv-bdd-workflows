@@ -1,10 +1,18 @@
 ---
-description: Implement one scenario. Explains what and why. Commits.
+description: Implement one scenario. Checks sync. Explains what and why. Commits.
 ---
 
 Read DESIGN-slice<n>.md and tests/test_slice<n>.py for the current branch.
 
-Pick the next failing scenario, or the one named in $ARGUMENTS.
+SYNC CHECK, before anything else. Compare the DESIGN file against its recorded
+Published hash:
+- No GitHub line          -> print: NOT PUBLISHED - design is local only. Continuing.
+- Hash matches            -> print: IN SYNC with #<n>
+- Hash differs            -> print: DRIFTED from #<n> - design changed since publish.
+                             Name the changed sections, then ask whether to continue or
+                             run /publish first. Wait for my answer.
+
+Then pick the next failing scenario, or the one named in $ARGUMENTS.
 
 Before writing anything, print exactly this and nothing more:
 

@@ -1,18 +1,28 @@
 ---
-description: Publish designed slices to GitHub as full issues. Asks first.
+description: Publish designed slices to GitHub as full issues. Detects drift. Asks first.
 ---
 
-Publish slice $ARGUMENTS. If no argument is given, default to the lowest-numbered slice
-that has a DESIGN file, has no GitHub number recorded, and has scenarios written. Say
-which one you chose and why in one line, and let me override it.
+The DESIGN file is the source of truth. GitHub is a published record of it. Nothing on
+GitHub is ever read back into a design.
 
-For each slice to publish, fill assets/feature-issue.md from the skill using ONLY what I
-already decided. Map it as follows - invent nothing:
+Argument handling:
+- /publish <n>    that slice only
+- /publish all    every slice with a DESIGN file
+- /publish        the lowest-numbered slice with a DESIGN file, scenarios written, and no
+                  GitHub number recorded. Say which one you chose in one line.
 
-- Objective            <- PURPOSE line of the DESIGN file
+For each slice in scope, determine its state:
+- NEW       no "GitHub:" line in the DESIGN file
+- IN SYNC   has a GitHub number, and the recorded design hash matches the file now
+- DRIFTED   has a GitHub number, but the design has changed since it was published
+
+Fill assets/feature-issue.md from the skill using ONLY what I already decided. Map it as
+follows - invent nothing:
+
+- Objective            <- the OBJECTIVE paragraph of the DESIGN file
 - Scope / In scope     <- what goes in, what comes out
 - Scope / Out of scope <- my answer to "out of scope"
-- Assumptions          <- FITS line of the DESIGN file
+- Assumptions          <- the FITS line of the DESIGN file
 - Acceptance criteria  <- one Given/When/Then per approved scenario row, numbered to
                           match the scenario numbers in the test docstrings
 - Safety invariants    <- my answers to "what must never happen"
@@ -24,17 +34,31 @@ already decided. Map it as follows - invent nothing:
 - Traceability         <- the pytest marker, the focused command, and each scenario
                           number mapped to its test name
 
-STEP 1 - print the filled issue body and stop. Then one line:
-Say "go" to create this issue, or tell me what to change.
+STEP 1 - print a state table and stop:
 
-STEP 2 - only after I say go:
-1. Create the GitHub issue with the slice name as title and the filled template as body.
-2. Record at the top of the DESIGN file: GitHub: #<n>
-3. Never create a second issue for a slice that already has a number recorded.
+| Slice | Title | State | Action |
+|-------|-------|-------|--------|
+
+Action is "create issue", "update #<n>", or "nothing - in sync".
+For any DRIFTED slice, print underneath it the specific sections that changed, one line
+each. Do not print the whole diff.
+
+Then one line: Say "go" to apply, or name the slices to skip.
+
+STEP 2 - only after I say go, for each approved slice:
+- NEW:     create the issue, then write two lines at the top of the DESIGN file:
+           GitHub: #<n>
+           Published: <sha256 of the design file content at publish time, first 12 chars>
+- DRIFTED: update the existing issue body, then rewrite the Published hash.
+- IN SYNC: do nothing.
+
+Never create a second issue for a slice that already has a number recorded.
 
 Print only:
 
-CREATED  #<n> <title>
+CREATED  <issue number and title, one per line, or none>
+UPDATED  <issue number and title, one per line, or none>
+IN SYNC  <slice numbers, or none>
 NEXT     <single next action>
 
 Do not push the branch. Do not close anything.
