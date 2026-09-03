@@ -1,5 +1,5 @@
 ---
-description: Propose slices as a short table. A suggestion, not a plan.
+description: Propose slices as a short table, ordered PoC first. A suggestion, not a plan.
 ---
 
 Read BRIEF.md, or use $ARGUMENTS as the brief.
@@ -20,19 +20,41 @@ Wrong - these are steps of one function, not slices:
 Right - each runs alone and adds visible behaviour:
   sort a queue by priority / reject invalid priorities / tie-break oldest first
 
-Slice 1 must be the thickest: the single capability closest to what the brief actually
-asks for. Later slices add behaviour to it, never assemble it.
+Classify every slice as exactly one of:
+- PoC     the capability the brief actually asks for. Usually one slice, at most two.
+          Building only these must produce a working demonstration.
+- HARDEN  makes the capability trustworthy: validation, immutability, determinism,
+          boundaries, failure behaviour.
 
-Propose three to five such slices. Print ONLY a table, nothing before or after:
+Order the table PoC first, then HARDEN by descending risk.
 
-| # | Slice | Input -> Output | Riskiest thing |
-|---|-------|-----------------|----------------|
+Print ONLY the following, nothing else.
+
+First, exactly two lines:
+
+PROPOSAL  <one sentence: what the PoC does, in plain words>
+POC       slice(s) <n>, then <n> hardening slices
+
+Then the table:
+
+| # | Type | Slice | Input -> Output | Riskiest thing |
+|---|------|-------|-----------------|----------------|
 
 Rules for the table:
+- Type is PoC or HARDEN.
 - Slice name: a behaviour, five words maximum. Not a noun phrase for a component.
 - Input -> Output: concrete, one short line, real values. No prose.
 - Riskiest thing: what could go wrong, six words maximum.
-- The whole table must be readable in under sixty seconds.
+- Three to five rows. Readable in under sixty seconds.
+
+Then:
+
+GAPS
+<what the brief leaves unanswered, or what these slices do not cover. One line each,
+three maximum. If none, write "none".>
+
+NEXT
+<what would come after these slices, one line each, three maximum.>
 
 Then one line, exactly this:
 These are suggestions. Tell me what to change, drop or add.
