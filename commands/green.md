@@ -12,7 +12,13 @@ Published hash:
                              Name the changed sections, then ask whether to continue or
                              run /publish first. Wait for my answer.
 
-Then pick the next failing scenario, or the one named in $ARGUMENTS.
+Run the suite and identify which scenarios already pass. Print one line:
+ALREADY PASSING  s<n>, s<n>, ...   (or "none")
+
+Never re-implement a passing scenario. If $ARGUMENTS names one that already passes, say
+so and stop rather than touching working code.
+
+Then pick the next FAILING scenario, or the one named in $ARGUMENTS if it is failing.
 
 Before writing anything, print exactly this and nothing more:
 
