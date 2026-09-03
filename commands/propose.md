@@ -30,7 +30,25 @@ Order the table PoC first, then HARDEN by descending risk.
 
 Print ONLY the following, nothing else.
 
-First, exactly seven lines. Each strictly one line, no wrapping, no prose:
+FIRST, an OBJECTIVE paragraph of three to four sentences. It must state, in this order:
+- what we are building and which user it serves
+- its architectural posture: standalone, isolated, embedded, and what it is ready to be
+  extended toward
+- which parts are deliberately separate or deferred to another component
+- where the result is observable: logs, return value, stdout, file
+
+Write it as flowing prose in the first person plural, not as bullet points or labels.
+Example of the register expected:
+
+  We are building an isolated script that gives clinicians a view of incoming messages
+  prioritised by urgency. The script is stand-alone and ready to accept asynchronous
+  entries via websockets. The urgency algorithm is separate, driven by the parameters
+  below. Output is visible in the logs, with no front end anywhere.
+
+Never claim a capability the slices do not deliver. If something is deferred, say it is
+deferred rather than implying it exists.
+
+THEN, exactly seven lines. Each strictly one line, no wrapping, no prose:
 
 PROPOSAL  <what the PoC does, in plain words, one sentence>
 SHAPE     <what it physically is: importable module, CLI script, local service. State what it is NOT: no I/O, no persistence, no network. Say how it is exercised: pytest, command line, HTTP call.>
@@ -51,7 +69,7 @@ the implementation from that line, it is not specific enough.
 EXCLUDES is not a list of everything absent. It is the two or three things a reader would
 otherwise assume are included.
 
-Then the table:
+THEN the table:
 
 | # | Type | Slice | Input -> Output | Riskiest thing |
 |---|------|-------|-----------------|----------------|
@@ -63,7 +81,7 @@ Rules for the table:
 - Riskiest thing: what could go wrong, six words maximum.
 - Three to five rows. Readable in under sixty seconds.
 
-Then:
+THEN:
 
 GAPS
 <what the brief leaves unanswered, or what these slices do not cover. One line each,
