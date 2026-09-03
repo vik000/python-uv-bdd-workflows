@@ -30,10 +30,26 @@ Order the table PoC first, then HARDEN by descending risk.
 
 Print ONLY the following, nothing else.
 
-First, exactly two lines:
+First, exactly seven lines. Each strictly one line, no wrapping, no prose:
 
-PROPOSAL  <one sentence: what the PoC does, in plain words>
-POC       slice(s) <n>, then <n> hardening slices
+PROPOSAL  <what the PoC does, in plain words, one sentence>
+SHAPE     <what it physically is: importable module, CLI script, local service. State what it is NOT: no I/O, no persistence, no network. Say how it is exercised: pytest, command line, HTTP call.>
+COVERS    <the functionality these slices deliver, comma separated, four items maximum>
+EXCLUDES  <what a reasonable reader might expect but will not get, comma separated>
+APPROACH  <how it works mechanically: the key data shape and the key operation>
+DEMO      <the call and what comes back: signature -> result>
+POC       <which slice(s) are the PoC, and how many hardening slices follow>
+
+SHAPE decides the smallest artefact that demonstrates the capability. Default to an
+importable module exercised by tests unless the brief demands otherwise. Never propose a
+service, API or persistence layer the brief did not ask for.
+
+APPROACH must name the actual mechanism, not restate the goal. Say "map labels to ranks,
+sort by (rank, timestamp) on a copy", not "sorts requests correctly". If I cannot picture
+the implementation from that line, it is not specific enough.
+
+EXCLUDES is not a list of everything absent. It is the two or three things a reader would
+otherwise assume are included.
 
 Then the table:
 
